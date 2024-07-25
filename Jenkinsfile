@@ -13,7 +13,7 @@ pipeline {
         }
         stage('run') {
             steps {
-                sh 'docker run -p 8001:8000 test'
+                sh 'docker run -p 8000:8000 test'
             }
         }
     }
