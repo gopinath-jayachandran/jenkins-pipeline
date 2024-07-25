@@ -4,7 +4,6 @@ pipeline {
         stage('Install Maven') {
                 steps {
                     sh '''
-                     apt-get update
                      apt-get install -y maven
                     '''
                 }
