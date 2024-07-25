@@ -1,9 +1,19 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('clean') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'docker build -t test .'
+            }
+        }
+        stage('run') {
+            steps {
+                sh 'docker run -p 8001:8000 test'
             }
         }
     }
