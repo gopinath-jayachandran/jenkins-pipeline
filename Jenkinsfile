@@ -29,5 +29,26 @@ pipeline {
                 sh 'docker run -d -p 8000:8000 --name=test-container test'
             }
         }
+        stage('Wait for Application') {
+             steps {
+                         script {
+                             def maxRetries = 10
+                             def retryInterval = 10
+                             def retries = 0
+                             while (retries < maxRetries) {
+                                 def status = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:8000", returnStdout: true).trim()
+                                 if (status == '200') {
+                                     echo "Application is up and running!"
+                                     break
+                                 }
+                                 retries++
+                                 sleep retryInterval
+                             }
+                             if (retries == maxRetries) {
+                                 error "Application did not start within the expected time."
+                             }
+                         }
+                     }
+        }
     }
 }
