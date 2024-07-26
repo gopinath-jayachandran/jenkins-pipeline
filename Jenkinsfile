@@ -18,7 +18,6 @@ pipeline {
                     // Check if the container exists and is running
                     def containerId = sh(script: "docker ps -q --filter 'name=${containerName}'", returnStdout: true).trim()
                     if (containerId) {
-                        // Stop and remove the container if it's running
                         sh "docker stop ${containerId}"
                         sh "docker rm ${containerId}"
                     }
